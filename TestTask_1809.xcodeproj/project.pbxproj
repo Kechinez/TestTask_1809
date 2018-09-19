@@ -12,6 +12,12 @@
 		3DFD883D21513636009190AC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3DFD883B21513636009190AC /* Main.storyboard */; };
 		3DFD883F21513637009190AC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3DFD883E21513637009190AC /* Assets.xcassets */; };
 		3DFD884221513637009190AC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3DFD884021513637009190AC /* LaunchScreen.storyboard */; };
+		3DFD885221513AEB009190AC /* HotelsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFD885121513AEB009190AC /* HotelsTableViewController.swift */; };
+		3DFD885721513D61009190AC /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3DFD885421513D61009190AC /* OpenSans-Semibold.ttf */; };
+		3DFD885821513D61009190AC /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3DFD885521513D61009190AC /* OpenSans-Light.ttf */; };
+		3DFD885921513D61009190AC /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3DFD885621513D61009190AC /* OpenSans-Regular.ttf */; };
+		3DFD885C21514032009190AC /* NetworkLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFD885B21514032009190AC /* NetworkLogic.swift */; };
+		3DFD885E21514B4E009190AC /* Hotel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFD885D21514B4E009190AC /* Hotel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +28,12 @@
 		3DFD883E21513637009190AC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3DFD884121513637009190AC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3DFD884321513637009190AC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3DFD885121513AEB009190AC /* HotelsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotelsTableViewController.swift; sourceTree = "<group>"; };
+		3DFD885421513D61009190AC /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
+		3DFD885521513D61009190AC /* OpenSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Light.ttf"; sourceTree = "<group>"; };
+		3DFD885621513D61009190AC /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
+		3DFD885B21514032009190AC /* NetworkLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkLogic.swift; sourceTree = "<group>"; };
+		3DFD885D21514B4E009190AC /* Hotel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hotel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +66,8 @@
 		3DFD883621513636009190AC /* TestTask_1809 */ = {
 			isa = PBXGroup;
 			children = (
+				3DFD885A21513FC4009190AC /* NetworkStack */,
+				3DFD885321513D22009190AC /* Fonts */,
 				3DFD88492151381A009190AC /* MainResultWindow */,
 				3DFD883721513636009190AC /* AppDelegate.swift */,
 				3DFD883921513636009190AC /* ViewController.swift */,
@@ -85,6 +99,7 @@
 		3DFD884B21513835009190AC /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				3DFD885D21514B4E009190AC /* Hotel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -92,8 +107,27 @@
 		3DFD884C2151383B009190AC /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				3DFD885121513AEB009190AC /* HotelsTableViewController.swift */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		3DFD885321513D22009190AC /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				3DFD885521513D61009190AC /* OpenSans-Light.ttf */,
+				3DFD885621513D61009190AC /* OpenSans-Regular.ttf */,
+				3DFD885421513D61009190AC /* OpenSans-Semibold.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		3DFD885A21513FC4009190AC /* NetworkStack */ = {
+			isa = PBXGroup;
+			children = (
+				3DFD885B21514032009190AC /* NetworkLogic.swift */,
+			);
+			path = NetworkStack;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -154,8 +188,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3DFD885721513D61009190AC /* OpenSans-Semibold.ttf in Resources */,
 				3DFD884221513637009190AC /* LaunchScreen.storyboard in Resources */,
 				3DFD883F21513637009190AC /* Assets.xcassets in Resources */,
+				3DFD885821513D61009190AC /* OpenSans-Light.ttf in Resources */,
+				3DFD885921513D61009190AC /* OpenSans-Regular.ttf in Resources */,
 				3DFD883D21513636009190AC /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -167,8 +204,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3DFD885E21514B4E009190AC /* Hotel.swift in Sources */,
 				3DFD883A21513636009190AC /* ViewController.swift in Sources */,
+				3DFD885C21514032009190AC /* NetworkLogic.swift in Sources */,
 				3DFD883821513636009190AC /* AppDelegate.swift in Sources */,
+				3DFD885221513AEB009190AC /* HotelsTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
