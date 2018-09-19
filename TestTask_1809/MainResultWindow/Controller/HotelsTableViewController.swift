@@ -10,18 +10,23 @@ import UIKit
 
 class HotelsTableViewController: UITableViewController {
 
-    var array: [Hotel] = []
+    let cellId = "HotelCell"
+    var hotels: [Hotel] = []
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        NetworkManager.getHotels { (result) in
+            print(UIScreen.main.bounds.width)
+        NetworkManager.getHotels { [weak self] (result) in
             switch result {
             case .Success(let hotel):
-                print(hotel)
+                self?.hotels = hotel
+                self?.tableView.reloadData()
             case .Failure(let error): print(error)
             }
         }
         
+        tableView.register(HotelCell.self, forCellReuseIdentifier: cellId)
         self.title = "Hotels"
         setUpTableViewAppearance()
     }
@@ -31,76 +36,45 @@ class HotelsTableViewController: UITableViewController {
         let background = UIView()
         background.backgroundColor = #colorLiteral(red: 0.03418464472, green: 0.03418464472, blue: 0.03418464472, alpha: 1)
         tableView.backgroundView = background
-        
-        tableView.separatorColor = #colorLiteral(red: 1, green: 0.9645570623, blue: 0.2864846627, alpha: 1)
+        tableView.rowHeight = 110
+        tableView.separatorColor = #colorLiteral(red: 0.9877062183, green: 0.9068514552, blue: 0.4717055176, alpha: 1)
     }
     
 
-    // MARK: - Table view data source
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
-    }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
-    }
-
-    /*
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
-        return cell
-    }
-    */
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
+    
+ 
 
 }
+
+
+
+
+// MARK: - TableViewController methods
+extension HotelsTableViewController {
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return hotels.count
+    }
+    
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! HotelCell
+        let currentHotel = hotels[indexPath.row]
+        
+        cell.nameLabel.text = currentHotel.name
+        cell.distanceLabel.text = currentHotel.distanceString
+        cell.showHotelStars(currentHotel.stars)
+        
+       // if cell.nameLabel.li
+        
+        //cell.roomLeftLabel.text = currentHotel.roomsAvailableString
+        return cell
+    }
+}
+
+
+

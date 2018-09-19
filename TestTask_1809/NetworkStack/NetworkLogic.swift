@@ -127,22 +127,38 @@ extension NetworkManager: Parsing {
 }
 
 
-
-private protocol RequestingHotels {
-    static func getHotels(completionHandler: @escaping ((APIResult<[Hotel]>) -> ()))
-    
+private protocol GettingHotelImages {
+    static func getImageOfHotel(with id: String, completionHandler: @escaping ((APIResult<Data>) -> ()))
 }
 
 
-extension NetworkManager: RequestingHotels {
+private protocol GettingHotelData {
+    static func getHotels(completionHandler: @escaping ((APIResult<[Hotel]>) -> ()))
+    static func getHotel(with id: String, completionHandler: @escaping ((APIResult<Hotel>) -> ()))
+}
+
+
+
+extension NetworkManager: GettingHotelImages {
+    
+    static func getImageOfHotel(with id: String, completionHandler: @escaping ((APIResult<Data>) -> ())) {
+        let urlRequest = ApiRequests.GetImage(hotelId: id).request
+        
+        requestData(with: urlRequest) { (data) in
+            DispatchQueue.main.async {
+                completionHandler(data)
+            }
+        }
+    }
+
+}
+
+
+extension NetworkManager: GettingHotelData {
     
     static func getHotels(completionHandler: @escaping ((APIResult<[Hotel]>) -> ())) {
         let urlRequest = ApiRequests.GetAllHotels.request
-        if !Thread.isMainThread {
-            print("getHotels runs on background")
-        } else {
-            print("MAIN THREAD!!!!")
-        }
+        
         requestData(with: urlRequest) { (data) in
             switch data {
             case .Success(let data):
@@ -156,6 +172,25 @@ extension NetworkManager: RequestingHotels {
             }
         }
     }
+    
+    
+    static func getHotel(with id: String, completionHandler: @escaping ((APIResult<Hotel>) -> ())) {
+        let urlRequest = ApiRequests.GetHotelInfo(hotelId: id).request
+        
+        requestData(with: urlRequest) { (data) in
+            switch data {
+            case .Success(let data):
+                jsonHandlingQueue.async {
+                    guard let jsonData = serializeJSON(from: data) as? JSON else { return }
+                    fetchHotel(from: jsonData, completionHandler: completionHandler)
+                }
+                
+                
+            case .Failure(let error): print(error)
+            }
+        }
+    }
+    
 
 }
 

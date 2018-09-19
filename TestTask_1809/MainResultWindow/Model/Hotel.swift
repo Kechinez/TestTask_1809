@@ -17,7 +17,7 @@ struct Hotel: ExtraInformation {
     let id: Int
     let name: String
     let stars: Int
-    let distance: Float
+    let distance: Double
     let roomsAvailable: Int
 }
 
@@ -29,6 +29,15 @@ protocol ExtraInformation {
 }
 
 
+
+extension Hotel {
+    var distanceString: String {
+        return String(self.distance) + String(" km from city center")
+    }
+    var roomsAvailableString: String {
+        return String(roomsAvailable)
+    }
+}
 
 
 extension Hotel: HotelDecoding {
@@ -43,7 +52,7 @@ extension Hotel: HotelDecoding {
         
         self.id = _id
         self.name = _name
-        self.distance = Float(_distance)
+        self.distance = Double(round(_distance * 10) / 10)
         self.stars = Int(_stars)
         self.roomsAvailable = _roomsAvailable.components(separatedBy: ":").count
         
