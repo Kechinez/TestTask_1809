@@ -74,6 +74,14 @@ extension HotelsTableViewController {
         //cell.roomLeftLabel.text = currentHotel.roomsAvailableString
         return cell
     }
+    
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let nextVC = CurrentHotelController()
+        nextVC.currentHotel = hotels[indexPath.row]
+        navigationController?.pushViewController(nextVC, animated: true)
+    }
+    
 }
 
 

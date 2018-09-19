@@ -19,6 +19,9 @@
 		3DFD885C21514032009190AC /* NetworkLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFD885B21514032009190AC /* NetworkLogic.swift */; };
 		3DFD885E21514B4E009190AC /* Hotel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFD885D21514B4E009190AC /* Hotel.swift */; };
 		3DFD886021527FF4009190AC /* HotelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFD885F21527FF4009190AC /* HotelCell.swift */; };
+		3DFD88672152A9B7009190AC /* CurrentHotelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFD88662152A9B7009190AC /* CurrentHotelController.swift */; };
+		3DFD88692152A9EA009190AC /* CurrentHotelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFD88682152A9EA009190AC /* CurrentHotelView.swift */; };
+		3DFD886B2152DC47009190AC /* HotelMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFD886A2152DC47009190AC /* HotelMetadata.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +39,9 @@
 		3DFD885B21514032009190AC /* NetworkLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkLogic.swift; sourceTree = "<group>"; };
 		3DFD885D21514B4E009190AC /* Hotel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hotel.swift; sourceTree = "<group>"; };
 		3DFD885F21527FF4009190AC /* HotelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotelCell.swift; sourceTree = "<group>"; };
+		3DFD88662152A9B7009190AC /* CurrentHotelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentHotelController.swift; sourceTree = "<group>"; };
+		3DFD88682152A9EA009190AC /* CurrentHotelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentHotelView.swift; sourceTree = "<group>"; };
+		3DFD886A2152DC47009190AC /* HotelMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotelMetadata.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +74,7 @@
 		3DFD883621513636009190AC /* TestTask_1809 */ = {
 			isa = PBXGroup;
 			children = (
+				3DFD88612152A942009190AC /* CurrentHotelWindow */,
 				3DFD885A21513FC4009190AC /* NetworkStack */,
 				3DFD885321513D22009190AC /* Fonts */,
 				3DFD88492151381A009190AC /* MainResultWindow */,
@@ -103,6 +110,7 @@
 			isa = PBXGroup;
 			children = (
 				3DFD885D21514B4E009190AC /* Hotel.swift */,
+				3DFD886A2152DC47009190AC /* HotelMetadata.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -131,6 +139,39 @@
 				3DFD885B21514032009190AC /* NetworkLogic.swift */,
 			);
 			path = NetworkStack;
+			sourceTree = "<group>";
+		};
+		3DFD88612152A942009190AC /* CurrentHotelWindow */ = {
+			isa = PBXGroup;
+			children = (
+				3DFD88652152A991009190AC /* CurrentHotelModel */,
+				3DFD88642152A97D009190AC /* CurrentHotelView */,
+				3DFD88622152A968009190AC /* CurrentHotelController */,
+			);
+			path = CurrentHotelWindow;
+			sourceTree = "<group>";
+		};
+		3DFD88622152A968009190AC /* CurrentHotelController */ = {
+			isa = PBXGroup;
+			children = (
+				3DFD88662152A9B7009190AC /* CurrentHotelController.swift */,
+			);
+			path = CurrentHotelController;
+			sourceTree = "<group>";
+		};
+		3DFD88642152A97D009190AC /* CurrentHotelView */ = {
+			isa = PBXGroup;
+			children = (
+				3DFD88682152A9EA009190AC /* CurrentHotelView.swift */,
+			);
+			path = CurrentHotelView;
+			sourceTree = "<group>";
+		};
+		3DFD88652152A991009190AC /* CurrentHotelModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = CurrentHotelModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -209,6 +250,9 @@
 			files = (
 				3DFD886021527FF4009190AC /* HotelCell.swift in Sources */,
 				3DFD885E21514B4E009190AC /* Hotel.swift in Sources */,
+				3DFD88672152A9B7009190AC /* CurrentHotelController.swift in Sources */,
+				3DFD886B2152DC47009190AC /* HotelMetadata.swift in Sources */,
+				3DFD88692152A9EA009190AC /* CurrentHotelView.swift in Sources */,
 				3DFD883A21513636009190AC /* ViewController.swift in Sources */,
 				3DFD885C21514032009190AC /* NetworkLogic.swift in Sources */,
 				3DFD883821513636009190AC /* AppDelegate.swift in Sources */,

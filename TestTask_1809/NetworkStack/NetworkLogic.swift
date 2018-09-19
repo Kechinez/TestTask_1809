@@ -16,11 +16,13 @@ public enum APIResult<T> {
     case Success(T)
     case Failure(Error)
 }
-
+//     https://github.com/iMofas/ios-android-test/raw/master/4.jpg
+//             https://raw.githubusercontent.com/iMofas/ios-android-test/master/0777.json
+//  https://raw.githubusercontent.com/iMofas/ios-android-test/master/22470.json
 
 private enum ApiRequests {
     case GetAllHotels
-    case GetImage(hotelId: String)
+    case GetImage(imageId: String)
     case GetHotelInfo(hotelId: String)
     
     private var baseURL: URL {
@@ -28,7 +30,7 @@ private enum ApiRequests {
         case .GetAllHotels, .GetHotelInfo(hotelId: _):
             return URL(string: "https://raw.githubusercontent.com/iMofas/ios-android-test/master/")!
 
-        case .GetImage(hotelId: _):
+        case .GetImage(imageId: _):
             return URL(string: "https://github.com/iMofas/ios-android-test/raw/master/")!
         }
     }
@@ -37,7 +39,7 @@ private enum ApiRequests {
         switch self {
         case .GetAllHotels:
             return String("0777.json")
-        case .GetImage(hotelId: let id):
+        case .GetImage(imageId: let id):
             return String(id)
         case .GetHotelInfo(hotelId: let id):
             return String(id) + ".json"
@@ -53,19 +55,22 @@ private enum ApiRequests {
 
 
 
+protocol HotelMetadataDecoding {
+    init?(json: JSON)
+}
 protocol HotelDecoding {
     init?(json: JSON)
 }
 
 private protocol Parsing {
     static func fetchHotelArray(from json: [JSON], completionHandler: @escaping ((APIResult<[Hotel]>) -> ())) -> ()
-    static func fetchHotel(from json: JSON, completionHandler: @escaping ((APIResult<Hotel>) -> ()))
+    static func fetchHotelMetadata(from json: JSON, completionHandler: @escaping ((APIResult<HotelMetadata>) -> ()))
 }
 
 
 extension NetworkManager: Parsing {
    
-    static func fetchHotel(from json: JSON, completionHandler: @escaping ((APIResult<Hotel>) -> ())) {
+    static func fetchHotelMetadata(from json: JSON, completionHandler: @escaping ((APIResult<HotelMetadata>) -> ())) {
         
         guard !json.isEmpty else {
             DispatchQueue.main.async {
@@ -76,7 +81,7 @@ extension NetworkManager: Parsing {
             return
         }
         
-        guard let hotel = Hotel(json: json) else {
+        guard let hotelMetadata = HotelMetadata(json: json) else {
             DispatchQueue.main.async {
                 let userInfo = [NSLocalizedDescriptionKey: NSLocalizedString("No results. Please, try again!", comment: "")]
                 let error = NSError(domain: "errorDomain", code: 100, userInfo: userInfo)
@@ -86,7 +91,7 @@ extension NetworkManager: Parsing {
         }
         
         DispatchQueue.main.async {
-            completionHandler(APIResult.Success(hotel))
+            completionHandler(APIResult.Success(hotelMetadata))
         }
     }
 
@@ -134,7 +139,7 @@ private protocol GettingHotelImages {
 
 private protocol GettingHotelData {
     static func getHotels(completionHandler: @escaping ((APIResult<[Hotel]>) -> ()))
-    static func getHotel(with id: String, completionHandler: @escaping ((APIResult<Hotel>) -> ()))
+    static func getHotelMetadata(with id: String, completionHandler: @escaping ((APIResult<HotelMetadata>) -> ()))
 }
 
 
@@ -142,7 +147,7 @@ private protocol GettingHotelData {
 extension NetworkManager: GettingHotelImages {
     
     static func getImageOfHotel(with id: String, completionHandler: @escaping ((APIResult<Data>) -> ())) {
-        let urlRequest = ApiRequests.GetImage(hotelId: id).request
+        let urlRequest = ApiRequests.GetImage(imageId: id).request
         
         requestData(with: urlRequest) { (data) in
             DispatchQueue.main.async {
@@ -174,7 +179,7 @@ extension NetworkManager: GettingHotelData {
     }
     
     
-    static func getHotel(with id: String, completionHandler: @escaping ((APIResult<Hotel>) -> ())) {
+    static func getHotelMetadata(with id: String, completionHandler: @escaping ((APIResult<HotelMetadata>) -> ())) {
         let urlRequest = ApiRequests.GetHotelInfo(hotelId: id).request
         
         requestData(with: urlRequest) { (data) in
@@ -182,7 +187,7 @@ extension NetworkManager: GettingHotelData {
             case .Success(let data):
                 jsonHandlingQueue.async {
                     guard let jsonData = serializeJSON(from: data) as? JSON else { return }
-                    fetchHotel(from: jsonData, completionHandler: completionHandler)
+                    fetchHotelMetadata(from: jsonData, completionHandler: completionHandler)
                 }
                 
                 
