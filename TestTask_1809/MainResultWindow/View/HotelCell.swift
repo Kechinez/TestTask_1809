@@ -118,6 +118,7 @@ class HotelCell: UITableViewCell {
         starsStackView.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 10).isActive = true
         
         distanceLabel.topAnchor.constraint(equalTo: starsStackView.bottomAnchor, constant: 10).isActive = true
+        distanceLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10).isActive = true
         
         markerImage.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10).isActive = true
         markerImage.heightAnchor.constraint(equalTo: distanceLabel.heightAnchor, multiplier: 1.2).isActive = true

@@ -26,6 +26,7 @@
 		3DFD88742153AD3B009190AC /* SearchFilterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFD88732153AD3B009190AC /* SearchFilterController.swift */; };
 		3DFD88762153B118009190AC /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFD88752153B118009190AC /* Filter.swift */; };
 		3DFD88982153D373009190AC /* HotelSorting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFD88972153D373009190AC /* HotelSorting.swift */; };
+		3DFD889A2153EB3F009190AC /* HotelsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFD88992153EB3F009190AC /* HotelsTableView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +51,7 @@
 		3DFD88732153AD3B009190AC /* SearchFilterController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFilterController.swift; sourceTree = "<group>"; };
 		3DFD88752153B118009190AC /* Filter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
 		3DFD88972153D373009190AC /* HotelSorting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotelSorting.swift; sourceTree = "<group>"; };
+		3DFD88992153EB3F009190AC /* HotelsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotelsTableView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +113,7 @@
 			isa = PBXGroup;
 			children = (
 				3DFD885F21527FF4009190AC /* HotelCell.swift */,
+				3DFD88992153EB3F009190AC /* HotelsTableView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -300,6 +303,7 @@
 				3DFD886B2152DC47009190AC /* HotelMetadata.swift in Sources */,
 				3DFD88762153B118009190AC /* Filter.swift in Sources */,
 				3DFD88692152A9EA009190AC /* CurrentHotelView.swift in Sources */,
+				3DFD889A2153EB3F009190AC /* HotelsTableView.swift in Sources */,
 				3DFD883A21513636009190AC /* ViewController.swift in Sources */,
 				3DFD885C21514032009190AC /* NetworkLogic.swift in Sources */,
 				3DFD883821513636009190AC /* AppDelegate.swift in Sources */,

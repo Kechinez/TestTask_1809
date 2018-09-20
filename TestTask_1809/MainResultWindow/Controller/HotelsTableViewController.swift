@@ -18,27 +18,33 @@ class HotelsTableViewController: UITableViewController {
             isFiltered = false
         }
     }
+    unowned var hotelsTableView: UITableView {
+        return (view as! HotelsTableView).tableView
+    }
     
     
+    override func loadView() {
+        view = HotelsTableView()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+        hotelsTableView.delegate = self
+        hotelsTableView.dataSource = self
+    
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(moveToSearchFilterController))
-        
         
         NetworkManager.getHotels { [weak self] (result) in
             switch result {
             case .Success(let hotel):
                 self?.hotels = hotel
-                self?.tableView.reloadData()
+            (self?.view as! HotelsTableView).tableView.reloadData()
+            self?.hotelsTableView.reloadData()
             case .Failure(let error): print(error)
             }
         }
-        
-        tableView.register(HotelCell.self, forCellReuseIdentifier: cellId)
         self.title = "Hotels"
-        setUpTableViewAppearance()
     }
 
     
@@ -50,14 +56,7 @@ class HotelsTableViewController: UITableViewController {
         
     }
     
-    private func setUpTableViewAppearance() {
-        let background = UIView()
-        background.backgroundColor = #colorLiteral(red: 0.03418464472, green: 0.03418464472, blue: 0.03418464472, alpha: 1)
-        tableView.backgroundView = background
-        tableView.rowHeight = 110
-        tableView.separatorColor = #colorLiteral(red: 0.9877062183, green: 0.9068514552, blue: 0.4717055176, alpha: 1)
-    }
-    
+   
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
