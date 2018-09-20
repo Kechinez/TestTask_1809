@@ -9,14 +9,24 @@
 import UIKit
 
 class HotelsTableViewController: UITableViewController {
-
+    
+    var isFiltered = false
     let cellId = "HotelCell"
     var hotels: [Hotel] = []
+    var hotelFilter: Filter? {
+        willSet {
+            isFiltered = false
+        }
+    }
+    
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-            print(UIScreen.main.bounds.width)
+        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(moveToSearchFilterController))
+        
+        
         NetworkManager.getHotels { [weak self] (result) in
             switch result {
             case .Success(let hotel):
@@ -32,6 +42,14 @@ class HotelsTableViewController: UITableViewController {
     }
 
     
+    @objc private func moveToSearchFilterController() {
+        let nextVC = SearchFilterController()
+        nextVC.delegate = self
+        navigationController?.pushViewController(nextVC, animated: true)
+        
+        
+    }
+    
     private func setUpTableViewAppearance() {
         let background = UIView()
         background.backgroundColor = #colorLiteral(red: 0.03418464472, green: 0.03418464472, blue: 0.03418464472, alpha: 1)
@@ -41,9 +59,15 @@ class HotelsTableViewController: UITableViewController {
     }
     
 
-    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        guard let filter = hotelFilter, isFiltered == false else { return }
+        hotels.sortHotels(using: filter)
+        tableView.reloadData()
+    }
  
-
+    
 }
 
 

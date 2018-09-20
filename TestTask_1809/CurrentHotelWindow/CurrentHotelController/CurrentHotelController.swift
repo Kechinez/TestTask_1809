@@ -12,7 +12,15 @@ class CurrentHotelController: UIViewController {
 
     ////  Здесь мб надо сделать weak  (!!!!!)
     var currentHotel: Hotel?
-    var hotelImage: UIImage?
+    
+//    private var hotelImage: UIImage? {
+//        didSet(newImage) {
+//            //hotelView.setImage(with: newImage!)
+//        }
+//    }
+    
+    
+    private var hotelMetadata: HotelMetadata?
     unowned var hotelView: CurrentHotelView {
         return view as! CurrentHotelView
     }
@@ -24,25 +32,28 @@ class CurrentHotelController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        NetworkManager.getImageOfHotel(with: currentHotel!.id) { [weak self] (result) in
-            switch result {
-            case .Success(let data):
-                guard let image = UIImage(data: data) else { return }
-                self?.hotelImage = image
-            
-            case .Failure(let error): print(error)
-            }
-            
-        }
-        NetworkManager.getHotelMetadata(with: currentHotel!.id) { (result) in
+        hotelView.updateUI(with: currentHotel!)
+        self.title = currentHotel!.name
+        
+        NetworkManager.getHotelMetadata(with: currentHotel!.id) { [weak self] (result) in
             switch result {
             case .Success(let hotelMetadata):
+                self?.hotelMetadata = hotelMetadata
+                guard let imageUrl = hotelMetadata.imageURL else { return }
                 
+                NetworkManager.getImageOfHotel(with: imageUrl, completionHandler: { [weak self] (data) in
+                    switch data {
+                    case .Success(let data):
+                        guard let image = UIImage(data: data) else { return }
+                        self?.hotelView.setImage(with: image)
+                        //self?.hotelImage = image
+                    case .Failure(let error): print(error)
+                    }
+                })
                 
             case .Failure(let error): print(error)
             }
         }
-        
     }
 
     

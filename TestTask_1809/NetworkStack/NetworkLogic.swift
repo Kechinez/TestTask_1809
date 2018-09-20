@@ -17,7 +17,7 @@ public enum APIResult<T> {
     case Failure(Error)
 }
 //     https://github.com/iMofas/ios-android-test/raw/master/4.jpg
-//             https://raw.githubusercontent.com/iMofas/ios-android-test/master/0777.json
+           //  https://raw.githubusercontent.com/iMofas/ios-android-test/master/0777.json
 //  https://raw.githubusercontent.com/iMofas/ios-android-test/master/22470.json
 
 private enum ApiRequests {
@@ -165,6 +165,8 @@ extension NetworkManager: GettingHotelData {
         let urlRequest = ApiRequests.GetAllHotels.request
         
         requestData(with: urlRequest) { (data) in
+            
+            
             switch data {
             case .Success(let data):
                 jsonHandlingQueue.async {
@@ -225,9 +227,8 @@ final class NetworkManager {
     private static func requestData(with request: URLRequest,  completionHandler: @escaping ((APIResult<Data>) -> ())) {
         
         let session = URLSession(configuration: .default)
-        let urlRequest = ApiRequests.GetAllHotels.request
         
-        let dataTask = session.dataTask(with: urlRequest) {  (data, response, error) in
+        let dataTask = session.dataTask(with: request) {  (data, response, error) in
             
             if !Thread.isMainThread {
                 print("callback of dataTask runs on background")

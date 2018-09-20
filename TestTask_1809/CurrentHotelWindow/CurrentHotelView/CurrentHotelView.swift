@@ -12,12 +12,13 @@ class CurrentHotelView: UIScrollView {
 
     let contentView: UIView = {
         let view = UIView(frame: CGRect.zero)
+        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     let nameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        let fontSize = CGFloat.calculateFontSize(from: 23)
+        let fontSize = CGFloat.calculateFontSize(from: 22)
         label.font = UIFont(name: "OpenSans", size: fontSize)!
         label.textColor = .white
         label.numberOfLines = 2
@@ -37,7 +38,7 @@ class CurrentHotelView: UIScrollView {
     let addressLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        let fontSize = CGFloat.calculateFontSize(from: 16)
+        let fontSize = CGFloat.calculateFontSize(from: 14)
         label.font = UIFont(name: "OpenSans", size: fontSize)!
         label.textColor = .white
         label.numberOfLines = 2
@@ -48,18 +49,21 @@ class CurrentHotelView: UIScrollView {
     let roomLeftLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        let fontSize = CGFloat.calculateFontSize(from: 19)
+        let fontSize = CGFloat.calculateFontSize(from: 17)
         label.font = UIFont(name: "OpenSans", size: fontSize)!
         label.textColor = .white
         return label
     }()
     let hotelImage: UIImageView = {
         let imageView = UIImageView()
+        imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     let mapView: MKMapView = {
         let map = MKMapView()
+        map.layer.cornerRadius = 8
         map.translatesAutoresizingMaskIntoConstraints = false
         return map
     }()
@@ -85,6 +89,24 @@ class CurrentHotelView: UIScrollView {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    
+    func updateUI(with hotelData: Hotel) {
+        self.nameLabel.text = hotelData.name
+        self.addressLabel.text = hotelData.address
+        self.roomLeftLabel.text = hotelData.roomsAvailableString
+        self.showHotelStars(hotelData.stars)
+        
+        
+        
+    }
+    
+    
+    
+    func setImage(with image: UIImage) {
+        self.hotelImage.image = image
     }
     
     
@@ -117,15 +139,20 @@ class CurrentHotelView: UIScrollView {
         contentView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         contentView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
         
-        nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20).isActive = true
+        hotelImage.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        hotelImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+        hotelImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+        hotelImage.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.25).isActive = true
+        
+        nameLabel.topAnchor.constraint(equalTo: hotelImage.bottomAnchor, constant: 20).isActive = true
         nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15).isActive = true
         nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15).isActive = true
         
-        addressLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 7).isActive = true
+        addressLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 3).isActive = true
         addressLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15).isActive = true
         addressLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15).isActive = true
         
-        starsStackView.topAnchor.constraint(equalTo: addressLabel.bottomAnchor, constant: 15).isActive = true
+        starsStackView.topAnchor.constraint(equalTo: addressLabel.bottomAnchor, constant: 10).isActive = true
         starsStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15).isActive = true
         
         roomLeftLabel.topAnchor.constraint(equalTo: starsStackView.bottomAnchor, constant: 15).isActive = true
@@ -134,6 +161,7 @@ class CurrentHotelView: UIScrollView {
         mapView.topAnchor.constraint(equalTo: roomLeftLabel.bottomAnchor, constant: 30).isActive = true
         mapView.heightAnchor.constraint(equalTo: contentView.widthAnchor).isActive = true
         mapView.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: -30).isActive = true
+        mapView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15).isActive = true
         mapView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20).isActive = true
         
     }

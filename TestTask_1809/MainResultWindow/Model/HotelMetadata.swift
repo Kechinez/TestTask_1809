@@ -30,7 +30,7 @@ extension HotelMetadata: HotelMetadataDecoding {
         if _imageUrl == nil || _imageUrl == "" || _imageUrl == "null" {
             self.imageURL = nil
         } else {
-            self.imageURL = imageURL!
+            self.imageURL = _imageUrl!
         }
     }
 }

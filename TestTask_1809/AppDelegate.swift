@@ -23,16 +23,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UINavigationBar.appearance().barTintColor = .black
         
+        
+        if let segControlFont = UIFont(name: "OpenSans", size: 14) {
+            let segControlAttributesDictionary: [NSAttributedStringKey: Any] = [
+                NSAttributedStringKey(rawValue: NSAttributedStringKey.foregroundColor.rawValue): UIColor.white,
+                NSAttributedStringKey(rawValue: NSAttributedStringKey.font.rawValue): segControlFont]
+            UISegmentedControl.appearance().setTitleTextAttributes(segControlAttributesDictionary, for: .normal)
+
+        }
+        
         UINavigationBar.appearance().tintColor = .white
         UINavigationBar.appearance().isTranslucent = false
-        if let navFont = UIFont(name: "OpenSans", size: 22) {
+        if let navFont = UIFont(name: "OpenSans", size: 20) {
             let navBarAttributesDictionary: [NSAttributedStringKey: Any] = [
                 NSAttributedStringKey(rawValue: NSAttributedStringKey.foregroundColor.rawValue): UIColor.white,
                 NSAttributedStringKey(rawValue: NSAttributedStringKey.font.rawValue): navFont]
             UINavigationBar.appearance().titleTextAttributes = navBarAttributesDictionary
         }
         
-        
+        UILabel.appearance(whenContainedInInstancesOf: [UISegmentedControl.self]).numberOfLines = 0
+
         return true
     }
 
