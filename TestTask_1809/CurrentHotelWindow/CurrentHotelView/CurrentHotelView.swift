@@ -1,17 +1,46 @@
 //
-//  CurrentHotelView.swift
+//  PsevdoView.swift
 //  TestTask_1809
 //
-//  Created by Nikita Kechinov on 19.09.2018.
+//  Created by Nikita Kechinov on 21.09.2018.
 //  Copyright © 2018 Nikita Kechinov. All rights reserved.
 //
 
 import UIKit
 import MapKit
-class CurrentHotelView: UIScrollView {
 
-    let contentView: UIView = {
-        let view = UIView(frame: CGRect.zero)
+
+
+extension UIImage {
+    func croppedRedBounds() -> UIImage {
+        var rect = CGRect.zero
+        
+        switch self.scale {
+        case 1.0:
+            rect = CGRect(x: 1, y: 1, width: self.size.width - 2, height: self.size.height - 2)
+        case 2.0:
+            rect = CGRect(x: 0.5, y: 0.5, width: self.size.width - 1, height: self.size.height - 1)
+        case 3.0:
+            rect = CGRect(x: 1 / 3, y: 1 / 3, width: self.size.width - (1 / 3) * 2, height: self.size.height - (1 / 3) * 2)
+        default:
+            break
+        }
+        
+        let contextImage = self.cgImage
+        let imageRef: CGImage = contextImage!.cropping(to: rect)!
+        let croppedImage: UIImage = UIImage(cgImage: imageRef, scale: self.scale, orientation: self.imageOrientation)
+        return croppedImage
+    }
+}
+
+
+
+
+
+class CurrentHotelView: UIView {
+    
+    let scrollView: UIScrollView = {
+        let view = UIScrollView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -56,8 +85,9 @@ class CurrentHotelView: UIScrollView {
     }()
     let hotelImage: UIImageView = {
         let imageView = UIImageView()
+        imageView.backgroundColor = UIColor.green
         imageView.clipsToBounds = true
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -68,18 +98,23 @@ class CurrentHotelView: UIScrollView {
         return map
     }()
     
+    private var hotelImageHeightConstraint: NSLayoutConstraint?
+    private var mapViewHeightConstraint: NSLayoutConstraint?
+    private var mapViewWidthConstraint: NSLayoutConstraint?
+    
+    
     
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = #colorLiteral(red: 0.03418464472, green: 0.03418464472, blue: 0.03418464472, alpha: 1)
-        self.addSubview(contentView)
-        contentView.addSubview(nameLabel)
-        contentView.addSubview(starsStackView)
-        contentView.addSubview(roomLeftLabel)
-        contentView.addSubview(hotelImage)
-        contentView.addSubview(addressLabel)
-        contentView.addSubview(mapView)
+        self.addSubview(scrollView)
+        scrollView.addSubview(nameLabel)
+        scrollView.addSubview(starsStackView)
+        scrollView.addSubview(roomLeftLabel)
+        scrollView.addSubview(hotelImage)
+        scrollView.addSubview(addressLabel)
+        scrollView.addSubview(mapView)
         
         createStarsArray()
         setupConstraints()
@@ -105,8 +140,10 @@ class CurrentHotelView: UIScrollView {
     
     
     
+    
     func setImage(with image: UIImage) {
-        self.hotelImage.image = image
+        let imageWithoutRedBounds = image.croppedRedBounds()
+        self.hotelImage.image = imageWithoutRedBounds
     }
     
     
@@ -133,39 +170,128 @@ class CurrentHotelView: UIScrollView {
     }
     
     
-    private func setupConstraints() {
+    func updateConstraintsForPortraitMode() {
+    
+        hotelImageHeightConstraint!.isActive = false
+        mapViewWidthConstraint!.isActive = false
+        mapViewHeightConstraint!.isActive = false
         
-        contentView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        contentView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        contentView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
-        
-        hotelImage.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-        hotelImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
-        hotelImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
-        hotelImage.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.25).isActive = true
-        
-        nameLabel.topAnchor.constraint(equalTo: hotelImage.bottomAnchor, constant: 20).isActive = true
-        nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15).isActive = true
-        nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15).isActive = true
-        
-        addressLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 3).isActive = true
-        addressLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15).isActive = true
-        addressLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15).isActive = true
-        
-        starsStackView.topAnchor.constraint(equalTo: addressLabel.bottomAnchor, constant: 10).isActive = true
-        starsStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15).isActive = true
-        
-        roomLeftLabel.topAnchor.constraint(equalTo: starsStackView.bottomAnchor, constant: 15).isActive = true
-        roomLeftLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15).isActive = true
-        
-        mapView.topAnchor.constraint(equalTo: roomLeftLabel.bottomAnchor, constant: 30).isActive = true
-        mapView.heightAnchor.constraint(equalTo: contentView.widthAnchor).isActive = true
-        mapView.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: -30).isActive = true
-        mapView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15).isActive = true
-        mapView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20).isActive = true
+        if #available(iOS 11, *) {
+            let safeArea = self.safeAreaLayoutGuide
+            
+            hotelImageHeightConstraint = hotelImage.heightAnchor.constraint(equalTo: safeArea.widthAnchor, multiplier: 0.4)
+            hotelImageHeightConstraint!.isActive = true
+            
+            mapViewHeightConstraint = mapView.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.4)
+            mapViewHeightConstraint!.isActive = true
+            mapViewWidthConstraint = mapView.widthAnchor.constraint(equalTo: safeArea.widthAnchor, constant: -30)
+            mapViewWidthConstraint!.isActive = true
+            mapView.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor).isActive = true
+            
+        } else {
+            
+            hotelImageHeightConstraint = hotelImage.heightAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.4)
+            hotelImageHeightConstraint!.isActive = true
+            
+            mapViewHeightConstraint = mapView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.4)
+            mapViewHeightConstraint!.isActive = true
+            mapViewWidthConstraint = mapView.widthAnchor.constraint(equalTo: self.widthAnchor, constant: -30)
+            mapViewWidthConstraint!.isActive = true
+        }
         
     }
+    
+    
+    func updateConstraintsForLandcapeMode() {
+        hotelImageHeightConstraint!.isActive = false
+        mapViewWidthConstraint!.isActive = false
+        mapViewHeightConstraint!.isActive = false
+        
+        if #available(iOS 11, *) {
+            let safeArea = self.safeAreaLayoutGuide
+            hotelImageHeightConstraint = hotelImage.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.4)
+            hotelImageHeightConstraint!.isActive = true
+            
+            mapViewHeightConstraint = mapView.heightAnchor.constraint(equalTo: safeArea.heightAnchor)
+            mapViewHeightConstraint!.isActive = true
 
+            mapViewWidthConstraint = mapView.widthAnchor.constraint(equalTo: safeArea.widthAnchor, multiplier: 0.6)
+            mapViewWidthConstraint!.isActive = true
+        } else {
+            hotelImageHeightConstraint = hotelImage.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.4)
+            hotelImageHeightConstraint!.isActive = true
+            
+            mapViewHeightConstraint = mapView.heightAnchor.constraint(equalTo: self.heightAnchor)
+            mapViewHeightConstraint!.isActive = true
+            
+            mapViewWidthConstraint = mapView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.6)
+            mapViewWidthConstraint!.isActive = true
+        }
+    }
+    
+    
+    
+    private func setupConstraints() {
+        
+        if #available(iOS 11, *) {
+            let safeArea = self.safeAreaLayoutGuide
+            scrollView.topAnchor.constraint(equalTo: safeArea.topAnchor).isActive = true
+            scrollView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor).isActive = true
+            scrollView.heightAnchor.constraint(equalTo: safeArea.heightAnchor).isActive = true
+            scrollView.widthAnchor.constraint(equalTo: safeArea.widthAnchor).isActive = true
+            
+            hotelImage.widthAnchor.constraint(equalTo: safeArea.widthAnchor).isActive = true
+            hotelImageHeightConstraint = hotelImage.heightAnchor.constraint(equalTo: safeArea.widthAnchor, multiplier: 0.4)
+            hotelImageHeightConstraint!.isActive = true
+            
+            nameLabel.widthAnchor.constraint(equalTo: safeArea.widthAnchor, constant: -30).isActive = true
+            nameLabel.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor).isActive = true
+            
+            mapViewHeightConstraint = mapView.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.4)
+            mapViewHeightConstraint!.isActive = true
+            mapViewWidthConstraint = mapView.widthAnchor.constraint(equalTo: safeArea.widthAnchor, constant: -30)
+            mapViewWidthConstraint!.isActive = true
+            mapView.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor).isActive = true
+            
+        } else {
+            scrollView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+            scrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+            scrollView.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
+            scrollView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
+            
+            hotelImage.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
+            hotelImageHeightConstraint = hotelImage.heightAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.4)
+            hotelImageHeightConstraint!.isActive = true
+            
+            nameLabel.widthAnchor.constraint(equalTo: self.widthAnchor, constant: -30).isActive = true
+            nameLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+            
+            mapViewHeightConstraint = mapView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.4)
+            mapViewHeightConstraint!.isActive = true
+            mapViewWidthConstraint = mapView.widthAnchor.constraint(equalTo: self.widthAnchor, constant: -30)
+            mapViewWidthConstraint!.isActive = true
+            mapView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        }
+       
+        hotelImage.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
+        
+        nameLabel.topAnchor.constraint(equalTo: hotelImage.bottomAnchor, constant: 20).isActive = true
+        
+        addressLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 3).isActive = true
+        addressLabel.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 15).isActive = true
+        addressLabel.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -15).isActive = true
+
+        starsStackView.topAnchor.constraint(equalTo: addressLabel.bottomAnchor, constant: 10).isActive = true
+        starsStackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 15).isActive = true
+
+        roomLeftLabel.topAnchor.constraint(equalTo: starsStackView.bottomAnchor, constant: 15).isActive = true
+        roomLeftLabel.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 15).isActive = true
+        
+        mapView.topAnchor.constraint(equalTo: roomLeftLabel.bottomAnchor, constant: 30).isActive = true
+        mapView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -20).isActive = true
+
+    }
+    
     
     
 }

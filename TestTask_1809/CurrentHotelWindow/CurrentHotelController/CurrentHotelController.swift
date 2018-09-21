@@ -12,14 +12,7 @@ class CurrentHotelController: UIViewController {
 
     ////  Здесь мб надо сделать weak  (!!!!!)
     var currentHotel: Hotel?
-    
-//    private var hotelImage: UIImage? {
-//        didSet(newImage) {
-//            //hotelView.setImage(with: newImage!)
-//        }
-//    }
-    
-    
+
     private var hotelMetadata: HotelMetadata?
     unowned var hotelView: CurrentHotelView {
         return view as! CurrentHotelView
@@ -46,7 +39,6 @@ class CurrentHotelController: UIViewController {
                     case .Success(let data):
                         guard let image = UIImage(data: data) else { return }
                         self?.hotelView.setImage(with: image)
-                        //self?.hotelImage = image
                     case .Failure(let error): print(error)
                     }
                 })
@@ -57,6 +49,14 @@ class CurrentHotelController: UIViewController {
     }
 
     
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        if UIScreen.main.bounds.height < UIScreen.main.bounds.width {
+            hotelView.updateConstraintsForLandcapeMode()
+        } else {
+            hotelView.updateConstraintsForPortraitMode()
+        }
+    }
+
     
 
 }

@@ -20,7 +20,7 @@ class SearchFilterView: UIView {
         return label
     }()
     let filterControl: UISegmentedControl = {
-        let items = ["number of available rooms", "distance from the center"]
+        let items = ["rooms available", "distance from the center"]
         let segmentedControl = UISegmentedControl(items: items)
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         segmentedControl.tintColor = #colorLiteral(red: 1, green: 0.9211425781, blue: 0.07194010417, alpha: 1)
@@ -71,21 +71,37 @@ class SearchFilterView: UIView {
     
     
     private func setupConstraints() {
-        orderLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 30).isActive = true
+        
+        if #available(iOS 11, *) {
+            let guide = self.safeAreaLayoutGuide
+            orderLabel.topAnchor.constraint(equalTo: guide.topAnchor, constant: 30).isActive = true
+
+            filterControl.leadingAnchor.constraint(equalTo: guide.leadingAnchor).isActive = true
+            filterControl.trailingAnchor.constraint(equalTo: guide.trailingAnchor).isActive = true
+
+            applyButton.centerXAnchor.constraint(equalTo: guide.centerXAnchor).isActive = true
+            applyButton.widthAnchor.constraint(equalTo: guide.widthAnchor, multiplier: 0.35).isActive = true
+            
+        } else {
+            orderLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 30).isActive = true
+            
+            filterControl.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+            filterControl.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+            
+            applyButton.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+            applyButton.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.35).isActive = true
+            
+        }
+        
         orderLabel.leadingAnchor.constraint(equalTo: filterControl.leadingAnchor).isActive = true
-        
+
         filterControl.topAnchor.constraint(equalTo: orderLabel.bottomAnchor, constant: 10).isActive = true
-        //filterControl.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        filterControl.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        filterControl.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
-        
+
         orderControl.topAnchor.constraint(equalTo: filterControl.bottomAnchor, constant: 20).isActive = true
         orderControl.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         orderControl.widthAnchor.constraint(equalTo: filterControl.widthAnchor).isActive = true
-        
+
         applyButton.topAnchor.constraint(equalTo: orderControl.bottomAnchor, constant: 40).isActive = true
-        applyButton.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        applyButton.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.35).isActive = true
         applyButton.heightAnchor.constraint(equalTo: filterControl.heightAnchor, multiplier: 1.4).isActive = true
     }
     

@@ -62,7 +62,6 @@ class HotelCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.backgroundColor = UIColor.clear
         print(self.frame)
-        
         self.addSubview(nameLabel)
         self.addSubview(distanceLabel)
         //self.addSubview(roomLeftLabel)

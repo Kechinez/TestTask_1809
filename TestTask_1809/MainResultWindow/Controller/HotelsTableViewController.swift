@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HotelsTableViewController: UITableViewController {
+class HotelsTableViewController: UIViewController {
     
     var isFiltered = false
     let cellId = "HotelCell"
@@ -29,7 +29,7 @@ class HotelsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         hotelsTableView.delegate = self
         hotelsTableView.dataSource = self
     
@@ -63,7 +63,7 @@ class HotelsTableViewController: UITableViewController {
         
         guard let filter = hotelFilter, isFiltered == false else { return }
         hotels.sortHotels(using: filter)
-        tableView.reloadData()
+        hotelsTableView.reloadData()
     }
  
     
@@ -73,18 +73,36 @@ class HotelsTableViewController: UITableViewController {
 
 
 // MARK: - TableViewController methods
-extension HotelsTableViewController {
+
+
+
+extension HotelsTableViewController: UITableViewDelegate {
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let nextVC = CurrentHotelController()
+        nextVC.currentHotel = hotels[indexPath.row]
+        navigationController?.pushViewController(nextVC, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
+
+    }
+}
+
+
+
+
+
+extension HotelsTableViewController: UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return hotels.count
     }
     
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! HotelCell
         let currentHotel = hotels[indexPath.row]
         
@@ -99,11 +117,13 @@ extension HotelsTableViewController {
     }
     
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let nextVC = CurrentHotelController()
-        nextVC.currentHotel = hotels[indexPath.row]
-        navigationController?.pushViewController(nextVC, animated: true)
-    }
+    
+    
+//    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+//        tableView.deselectRow(at: indexPath, animated: true)
+//    }
+    
+    
     
 }
 

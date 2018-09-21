@@ -39,11 +39,25 @@ class HotelsTableView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
     private func setupConstraints() {
-        tableView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor).isActive = true
-        tableView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor).isActive = true
-        tableView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        tableView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        
+        if #available(iOS 11, *) {
+            let guide = self.safeAreaLayoutGuide
+            tableView.bottomAnchor.constraint(equalTo: guide.bottomAnchor).isActive = true
+            tableView.topAnchor.constraint(equalTo: guide.topAnchor).isActive = true
+            tableView.leadingAnchor.constraint(equalTo: guide.leadingAnchor).isActive = true
+            tableView.trailingAnchor.constraint(equalTo: guide.trailingAnchor).isActive = true
+            
+        } else {
+            let margins = self.layoutMarginsGuide
+            let standardSpacing: CGFloat = 8.0
+            tableView.topAnchor.constraint(equalTo: margins.topAnchor, constant: standardSpacing).isActive = true
+            tableView.bottomAnchor.constraint(equalTo: margins.bottomAnchor, constant: standardSpacing).isActive = true
+            tableView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+            tableView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+            
+        }
     }
     
 }
