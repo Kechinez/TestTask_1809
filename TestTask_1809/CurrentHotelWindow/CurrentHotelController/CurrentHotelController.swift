@@ -67,7 +67,7 @@ class CurrentHotelController: UIViewController, MKMapViewDelegate {
     
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        if UIScreen.main.bounds.height < UIScreen.main.bounds.width {
+        if UIScreen.main.bounds.height > UIScreen.main.bounds.width {
             hotelView.updateConstraintsForLandcapeMode()
         } else {
             hotelView.updateConstraintsForPortraitMode()
