@@ -9,50 +9,6 @@
 import Foundation
 
 
-//enum FilteringType  {
-//
-//    var settings: (type: FilteringType, ascending: Bool) {
-//        return (self, isAscending)
-//    }
-//
-//
-//    private var isAscending: Bool {
-//        switch self {
-//        case .ByAvailableRoomsNumber(order: let orderType):
-//            return (orderType == .Ascending ? true : false)
-//        case .ByDistanceFromCenter(order: let orderType):
-//            return (orderType == .Ascending ? true : false)
-//
-//        }
-//    }
-//    case ByAvailableRoomsNumber(order: OrderType)
-//    case ByDistanceFromCenter(order: OrderType)
-//
-//    enum OrderType {
-//        case Ascending
-//        case Descending
-//    }
-//
-//
-//    static func buildFilter(fromFilterSegmentedControl firstSegment: Int, orderSegmentControl secondSegment: Int) -> FilteringType {
-//        switch (firstSegment, secondSegment) {
-//        case (0, 0):
-//            return FilteringType.ByAvailableRoomsNumber(order: .Ascending)
-//        case (0, 1):
-//            return FilteringType.ByAvailableRoomsNumber(order: .Descending)
-//        case (1, 0):
-//            return FilteringType.ByDistanceFromCenter(order: .Ascending)
-//        case (1, 1):
-//            return FilteringType.ByDistanceFromCenter(order: .Descending)
-//        case (_, _):
-//            return FilteringType.ByAvailableRoomsNumber(order: .Ascending)
-//        }
-//    }
-//
-//}
-
-
-
 struct Filter {
 
     enum FilteringType {
@@ -90,7 +46,6 @@ struct Filter {
         
     }
     
-
 }
 
 

@@ -15,9 +15,6 @@ struct HotelMetadata {
 }
 
 
-
-
-
 extension HotelMetadata: HotelMetadataDecoding {
     init?(json: JSON) {
         guard let lat = json["lat"] as? Double,

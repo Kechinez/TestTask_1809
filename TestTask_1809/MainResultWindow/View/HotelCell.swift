@@ -134,24 +134,24 @@ class HotelCell: UITableViewCell {
 
 
 
-extension CGFloat {
-    static func calculateFontSize(from originalSize: CGFloat) -> CGFloat {
-        var deviceWidth: CGFloat = 0.0
-        if UIDevice().userInterfaceIdiom == .phone {
-            switch UIScreen.main.nativeBounds.height {
-            case 1136:
-                deviceWidth = 320         //iPhone 5 or 5S or 5C
-            case 1334, 2436:
-                deviceWidth = 375          // iPhone 6/6S/7/8/X
-            case 1920, 2208:
-                deviceWidth = 414          // iPhone 6+/6S+/7+/8+
-            default:
-                deviceWidth = 320
-            }
-        }
-        return originalSize / 320 * deviceWidth
-    }
-}
+//extension CGFloat {
+//    static func calculateFontSize(from originalSize: CGFloat) -> CGFloat {
+//        var deviceWidth: CGFloat = 0.0
+//        if UIDevice().userInterfaceIdiom == .phone {
+//            switch UIScreen.main.nativeBounds.height {
+//            case 1136:
+//                deviceWidth = 320         //iPhone 5 or 5S or 5C
+//            case 1334, 2436:
+//                deviceWidth = 375          // iPhone 6/6S/7/8/X
+//            case 1920, 2208:
+//                deviceWidth = 414          // iPhone 6+/6S+/7+/8+
+//            default:
+//                deviceWidth = 320
+//            }
+//        }
+//        return originalSize / 320 * deviceWidth
+//    }
+//}
 
 
 

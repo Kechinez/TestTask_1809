@@ -21,9 +21,6 @@ struct Hotel {
 }
 
 
-
-
-
 extension Hotel {
     var distanceString: String {
         return String(self.distance) + String(" km from city center")

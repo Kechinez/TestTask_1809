@@ -8,6 +8,9 @@
 
 import UIKit
 
+let imageCache = NSCache<NSString, AnyObject>()
+
+
 class HotelsTableViewController: UIViewController {
     
     var isFiltered = false
@@ -41,7 +44,9 @@ class HotelsTableViewController: UIViewController {
                 self?.hotels = hotel
             (self?.view as! HotelsTableView).tableView.reloadData()
             self?.hotelsTableView.reloadData()
-            case .Failure(let error): print(error)
+            case .Failure(let error):
+                guard let notNilSelf = self else { return }
+                ErrorManager.showErrorMessage(with: error, shownAt: notNilSelf)
             }
         }
         self.title = "Hotels"
@@ -115,14 +120,6 @@ extension HotelsTableViewController: UITableViewDataSource {
         //cell.roomLeftLabel.text = currentHotel.roomsAvailableString
         return cell
     }
-    
-    
-    
-    
-//    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-//        tableView.deselectRow(at: indexPath, animated: true)
-//    }
-    
     
     
 }

@@ -7,14 +7,13 @@
 //
 
 import UIKit
+import MapKit
+class CurrentHotelController: UIViewController, MKMapViewDelegate {
 
-class CurrentHotelController: UIViewController {
-
-    ////  Здесь мб надо сделать weak  (!!!!!)
     var currentHotel: Hotel?
 
     private var hotelMetadata: HotelMetadata?
-    unowned var hotelView: CurrentHotelView {
+    unowned private var hotelView: CurrentHotelView {
         return view as! CurrentHotelView
     }
     
@@ -25,6 +24,8 @@ class CurrentHotelController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        hotelView.setupMapDelegate(with: self)
+        
         hotelView.updateUI(with: currentHotel!)
         self.title = currentHotel!.name
         
@@ -32,18 +33,29 @@ class CurrentHotelController: UIViewController {
             switch result {
             case .Success(let hotelMetadata):
                 self?.hotelMetadata = hotelMetadata
+                self?.hotelView.setLocation(with: hotelMetadata.coordinates)
+
                 guard let imageUrl = hotelMetadata.imageURL else { return }
+                
+                //self?.hotelView.startActivityIndicator()
                 
                 NetworkManager.getImageOfHotel(with: imageUrl, completionHandler: { [weak self] (data) in
                     switch data {
                     case .Success(let data):
                         guard let image = UIImage(data: data) else { return }
                         self?.hotelView.setImage(with: image)
-                    case .Failure(let error): print(error)
+                    case .Failure(let error):
+                        guard let notNilSelf = self else { return }
+                        ErrorManager.showErrorMessage(with: error, shownAt: notNilSelf)
+                        self?.hotelView.hideHotelImageFrame()
+
                     }
                 })
                 
-            case .Failure(let error): print(error)
+            case .Failure(let error):
+                guard let notNilSelf = self else { return }
+                ErrorManager.showErrorMessage(with: error, shownAt: notNilSelf)
+                self?.hotelView.hideHotelImageFrame()
             }
         }
     }

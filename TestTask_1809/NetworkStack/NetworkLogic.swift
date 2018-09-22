@@ -16,9 +16,7 @@ public enum APIResult<T> {
     case Success(T)
     case Failure(Error)
 }
-//     https://github.com/iMofas/ios-android-test/raw/master/4.jpg
-           //  https://raw.githubusercontent.com/iMofas/ios-android-test/master/0777.json
-//  https://raw.githubusercontent.com/iMofas/ios-android-test/master/22470.json
+
 
 private enum ApiRequests {
     case GetAllHotels
@@ -173,9 +171,10 @@ extension NetworkManager: GettingHotelData {
                     guard let jsonData = serializeJSON(from: data) as? [JSON] else { return }
                     fetchHotelArray(from: jsonData, completionHandler: completionHandler)
                 }
-                
-                
-            case .Failure(let error): print(error)
+            case .Failure(let error):
+                DispatchQueue.main.async {
+                    completionHandler(APIResult.Failure(error))
+                }
             }
         }
     }
@@ -191,9 +190,10 @@ extension NetworkManager: GettingHotelData {
                     guard let jsonData = serializeJSON(from: data) as? JSON else { return }
                     fetchHotelMetadata(from: jsonData, completionHandler: completionHandler)
                 }
-                
-                
-            case .Failure(let error): print(error)
+            case .Failure(let error):
+                DispatchQueue.main.async {
+                    completionHandler(APIResult.Failure(error))
+                }
             }
         }
     }
@@ -211,9 +211,6 @@ final class NetworkManager {
     
     
     private static func serializeJSON(from data: Data) -> Any? {
-        if !Thread.isMainThread {
-            print("JSON serialization runs on background")
-        }
         do {
             let json = try JSONSerialization.jsonObject(with: data, options: [])
             return json
@@ -227,30 +224,26 @@ final class NetworkManager {
     private static func requestData(with request: URLRequest,  completionHandler: @escaping ((APIResult<Data>) -> ())) {
         
         let session = URLSession(configuration: .default)
-        
         let dataTask = session.dataTask(with: request) {  (data, response, error) in
             
-            if !Thread.isMainThread {
-                print("callback of dataTask runs on background")
-            }
-            
             guard let httpResponse = response as? HTTPURLResponse else {
-                DispatchQueue.main.async {
-                    completionHandler(APIResult.Failure(error!))
-                }
+                let userInfo = [NSLocalizedDescriptionKey: NSLocalizedString("Server replied with invalid protocol!", comment: "")]
+                let error = NSError(domain: "errorDomain", code: 100, userInfo: userInfo)
+                completionHandler(APIResult.Failure(error))
                 return
             }
             
             guard error == nil else {
-                DispatchQueue.main.async {
-                    completionHandler(APIResult.Failure(error!))
-                }
+                completionHandler(APIResult.Failure(error!))
                 return
             }
             
             switch httpResponse.statusCode {
             case 200: completionHandler(.Success(data!))
-            default: break
+            default:
+                let userInfo = [NSLocalizedDescriptionKey: NSLocalizedString("Requested resource could not be found !", comment: "")]
+                let error = NSError(domain: "errorDomain", code: 100, userInfo: userInfo)
+                completionHandler(APIResult.Failure(error))
             }
         }
         dataTask.resume()

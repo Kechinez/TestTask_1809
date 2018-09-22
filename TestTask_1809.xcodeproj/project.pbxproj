@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3D468ADF2155249B00207442 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D468ADE2155249B00207442 /* Helper.swift */; };
+		3D468AE1215535AB00207442 /* ErrorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D468AE0215535AB00207442 /* ErrorManager.swift */; };
 		3DFD883821513636009190AC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFD883721513636009190AC /* AppDelegate.swift */; };
-		3DFD883A21513636009190AC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFD883921513636009190AC /* ViewController.swift */; };
 		3DFD883D21513636009190AC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3DFD883B21513636009190AC /* Main.storyboard */; };
 		3DFD883F21513637009190AC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3DFD883E21513637009190AC /* Assets.xcassets */; };
 		3DFD884221513637009190AC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3DFD884021513637009190AC /* LaunchScreen.storyboard */; };
@@ -30,9 +31,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3D468ADE2155249B00207442 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
+		3D468AE0215535AB00207442 /* ErrorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorManager.swift; sourceTree = "<group>"; };
 		3DFD883421513636009190AC /* TestTask_1809.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestTask_1809.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3DFD883721513636009190AC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		3DFD883921513636009190AC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		3DFD883C21513636009190AC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3DFD883E21513637009190AC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3DFD884121513637009190AC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -90,11 +92,12 @@
 				3DFD885321513D22009190AC /* Fonts */,
 				3DFD88492151381A009190AC /* MainResultWindow */,
 				3DFD883721513636009190AC /* AppDelegate.swift */,
-				3DFD883921513636009190AC /* ViewController.swift */,
 				3DFD883B21513636009190AC /* Main.storyboard */,
 				3DFD883E21513637009190AC /* Assets.xcassets */,
 				3DFD884021513637009190AC /* LaunchScreen.storyboard */,
 				3DFD884321513637009190AC /* Info.plist */,
+				3D468ADE2155249B00207442 /* Helper.swift */,
+				3D468AE0215535AB00207442 /* ErrorManager.swift */,
 			);
 			path = TestTask_1809;
 			sourceTree = "<group>";
@@ -296,6 +299,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3DFD88742153AD3B009190AC /* SearchFilterController.swift in Sources */,
+				3D468ADF2155249B00207442 /* Helper.swift in Sources */,
 				3DFD886021527FF4009190AC /* HotelCell.swift in Sources */,
 				3DFD889C2154F1CF009190AC /* CurrentHotelView.swift in Sources */,
 				3DFD885E21514B4E009190AC /* Hotel.swift in Sources */,
@@ -303,8 +307,8 @@
 				3DFD88672152A9B7009190AC /* CurrentHotelController.swift in Sources */,
 				3DFD886B2152DC47009190AC /* HotelMetadata.swift in Sources */,
 				3DFD88762153B118009190AC /* Filter.swift in Sources */,
+				3D468AE1215535AB00207442 /* ErrorManager.swift in Sources */,
 				3DFD889A2153EB3F009190AC /* HotelsTableView.swift in Sources */,
-				3DFD883A21513636009190AC /* ViewController.swift in Sources */,
 				3DFD885C21514032009190AC /* NetworkLogic.swift in Sources */,
 				3DFD883821513636009190AC /* AppDelegate.swift in Sources */,
 				3DFD887221539FE3009190AC /* SearchFilterView.swift in Sources */,
