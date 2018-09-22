@@ -10,16 +10,14 @@ import UIKit
 
 class SearchFilterView: UIView {
 
-    let orderLabel: UILabel = {
+    private let orderLabel: UILabel = {
         let label = UILabel()
         label.text = "Filter hotels by"
         label.translatesAutoresizingMaskIntoConstraints = false
-        let fontSize = CGFloat.calculateFontSize(from: CGFloat.calculateFontSize(from: 17))
-        label.font = UIFont(name: "OpenSans", size: fontSize)!
-        label.textColor = .white
+        label.setTextAppearance(with: 17)
         return label
     }()
-    let filterControl: UISegmentedControl = {
+    private let filterControl: UISegmentedControl = {
         let items = ["rooms available", "distance from the center"]
         let segmentedControl = UISegmentedControl(items: items)
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
@@ -28,7 +26,7 @@ class SearchFilterView: UIView {
         segmentedControl.layer.cornerRadius = 5
         return segmentedControl
     }()
-    let orderControl: UISegmentedControl = {
+    private let orderControl: UISegmentedControl = {
         let items = ["ascending order", "descending order"]
         let segmentedControl = UISegmentedControl(items: items)
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
@@ -37,7 +35,7 @@ class SearchFilterView: UIView {
         segmentedControl.layer.cornerRadius = 5
         return segmentedControl
     }()
-    let applyButton: UIButton = {
+    private let applyButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = 8
@@ -52,6 +50,7 @@ class SearchFilterView: UIView {
     }()
     
     
+    //MARK: - Init
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -65,8 +64,22 @@ class SearchFilterView: UIView {
     }
     
     
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    
+    
+    //MARK: - Additional methods
+    
     func addActionToButton(relatedTo viewController: SearchFilterController) {
         applyButton.addTarget(viewController, action: #selector(SearchFilterController.applySearchFilter), for: .touchUpInside)
+    }
+    
+    
+    func getCurrentSegmentedControlsStates() -> (Int, Int) {
+        return (filterControl.selectedSegmentIndex, orderControl.selectedSegmentIndex)
     }
     
     
@@ -105,10 +118,5 @@ class SearchFilterView: UIView {
         applyButton.heightAnchor.constraint(equalTo: filterControl.heightAnchor, multiplier: 1.4).isActive = true
     }
     
-    
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
     
 }

@@ -22,12 +22,11 @@ class HotelsTableView: UIView {
         tableView.register(HotelCell.self, forCellReuseIdentifier: "HotelCell")
         return tableView
     }()
-        
     
-    func setupDelegateAndDataSource(vc: HotelsTableViewController) {
-        self.tableView.delegate = vc
-        self.tableView.dataSource = vc
-    }
+    
+    
+    
+    //MARK: - Init
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -35,11 +34,21 @@ class HotelsTableView: UIView {
         setupConstraints()
     }
     
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     
+
+    //MARK: - Additional methods
+    
+    func setupDelegateAndDataSource(vc: HotelsTableViewController) {
+        self.tableView.delegate = vc
+        self.tableView.dataSource = vc
+    }
+    
+
     private func setupConstraints() {
         
         if #available(iOS 11, *) {

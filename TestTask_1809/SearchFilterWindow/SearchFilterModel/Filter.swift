@@ -11,39 +11,42 @@ import Foundation
 
 struct Filter {
 
-    enum FilteringType {
-        case ByAvailableRoomsNumber
-        case ByDistanceFromCenter
+    enum FilteringType: Int {
+        case ByAvailableRoomsNumber   = 0
+        case ByDistanceFromCenter     = 1
     }
-    enum FilterOrder {
-        case Ascending
-        case Descending
+    enum FilterOrder: Int {
+        case Ascending   = 0
+        case Descending  = 1
     }
     
     let type: FilteringType
     let order: FilterOrder
     
     
-    init(filterControlSegment: Int, orderControlSegment: Int) {
+    
+    init(controlStates: (filterControlSegment: Int, filterControlSegment: Int)) {
         
-        switch (filterControlSegment, orderControlSegment) {
-        case (0, 0):
+        switch controlStates {
+        case (FilteringType.ByAvailableRoomsNumber.rawValue, FilterOrder.Ascending.rawValue):
             self.type = .ByAvailableRoomsNumber
             self.order = .Ascending
-        case (0, 1):
+        
+        case (FilteringType.ByAvailableRoomsNumber.rawValue, FilterOrder.Descending.rawValue):
             self.type = .ByAvailableRoomsNumber
             self.order = .Descending
-        case (1, 0):
+        
+        case (FilteringType.ByDistanceFromCenter.rawValue, FilterOrder.Ascending.rawValue):
             self.type = .ByDistanceFromCenter
             self.order = .Ascending
-        case (1, 1):
+        
+        case (FilteringType.ByDistanceFromCenter.rawValue, FilterOrder.Descending.rawValue):
             self.type = .ByDistanceFromCenter
             self.order = .Descending
         case (_, _):
             self.type = .ByAvailableRoomsNumber
             self.order = .Ascending
         }
-        
     }
     
 }

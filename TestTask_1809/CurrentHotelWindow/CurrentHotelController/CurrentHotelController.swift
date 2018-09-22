@@ -9,37 +9,44 @@
 import UIKit
 import MapKit
 class CurrentHotelController: UIViewController, MKMapViewDelegate {
-
+    
     var currentHotel: Hotel?
-
+    
     private var hotelMetadata: HotelMetadata?
     unowned private var hotelView: CurrentHotelView {
         return view as! CurrentHotelView
     }
     
+    
+    //MARK: - ViewController lifecycle
+    
     override func loadView() {
         view = CurrentHotelView()
     }
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         hotelView.setupMapDelegate(with: self)
         
         hotelView.updateUI(with: currentHotel!)
         self.title = currentHotel!.name
         
         NetworkManager.getHotelMetadata(with: currentHotel!.id) { [weak self] (result) in
+            
             switch result {
             case .Success(let hotelMetadata):
                 self?.hotelMetadata = hotelMetadata
                 self?.hotelView.setLocation(with: hotelMetadata.coordinates)
-
-                guard let imageUrl = hotelMetadata.imageURL else { return }
                 
-                //self?.hotelView.startActivityIndicator()
+                guard let imageUrl = hotelMetadata.imageURL else {
+                    self?.hotelView.hideHotelImageFrame()
+                    return
+                }
                 
                 NetworkManager.getImageOfHotel(with: imageUrl, completionHandler: { [weak self] (data) in
+                    
                     switch data {
                     case .Success(let data):
                         guard let image = UIImage(data: data) else { return }
@@ -48,10 +55,8 @@ class CurrentHotelController: UIViewController, MKMapViewDelegate {
                         guard let notNilSelf = self else { return }
                         ErrorManager.showErrorMessage(with: error, shownAt: notNilSelf)
                         self?.hotelView.hideHotelImageFrame()
-
                     }
                 })
-                
             case .Failure(let error):
                 guard let notNilSelf = self else { return }
                 ErrorManager.showErrorMessage(with: error, shownAt: notNilSelf)
@@ -59,7 +64,7 @@ class CurrentHotelController: UIViewController, MKMapViewDelegate {
             }
         }
     }
-
+    
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         if UIScreen.main.bounds.height < UIScreen.main.bounds.width {
@@ -68,7 +73,5 @@ class CurrentHotelController: UIViewController, MKMapViewDelegate {
             hotelView.updateConstraintsForPortraitMode()
         }
     }
-
     
-
 }

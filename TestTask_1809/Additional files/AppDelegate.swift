@@ -21,8 +21,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window?.rootViewController = UINavigationController(rootViewController: HotelsTableViewController())
         
+        UIApplication.shared.statusBarStyle = .lightContent
         UINavigationBar.appearance().barTintColor = .black
-        
         
         if let segControlFont = UIFont(name: "OpenSans", size: 14) {
             let segControlAttributesDictionary: [NSAttributedStringKey: Any] = [
@@ -31,7 +31,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UISegmentedControl.appearance().setTitleTextAttributes(segControlAttributesDictionary, for: .normal)
 
         }
-        
         UINavigationBar.appearance().tintColor = .white
         UINavigationBar.appearance().isTranslucent = false
         if let navFont = UIFont(name: "OpenSans", size: 20) {
@@ -40,7 +39,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 NSAttributedStringKey(rawValue: NSAttributedStringKey.font.rawValue): navFont]
             UINavigationBar.appearance().titleTextAttributes = navBarAttributesDictionary
         }
-        
         UILabel.appearance(whenContainedInInstancesOf: [UISegmentedControl.self]).numberOfLines = 0
 
         return true

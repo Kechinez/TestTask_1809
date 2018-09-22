@@ -16,6 +16,10 @@ class SearchFilterController: UIViewController {
         return view as! SearchFilterView
     }
     
+    
+    
+    //MARK: - ViewController lifecycle
+    
     override func loadView() {
         view = SearchFilterView()
     }
@@ -23,21 +27,20 @@ class SearchFilterController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         self.title = "Filter result"
         searchFilterView.addActionToButton(relatedTo: self)
         
     }
 
+   
+    
+    
+    //MARK: - Additional methods
     
     @objc func applySearchFilter() {
-        let filterControlSegment = searchFilterView.filterControl.selectedSegmentIndex
-        let orderControlSegment = searchFilterView.orderControl.selectedSegmentIndex
-        let filter = Filter(filterControlSegment: filterControlSegment, orderControlSegment: orderControlSegment)
-        
-        //let filter = FilteringType.buildFilter(fromFilterSegmentedControl: filterControlSegment, orderSegmentControl: orderControlSegment)
+        let controlStates = searchFilterView.getCurrentSegmentedControlsStates()
+        let filter = Filter(controlStates: controlStates)
         delegate?.hotelFilter = filter
-        
         navigationController?.popViewController(animated: true)
     }
 

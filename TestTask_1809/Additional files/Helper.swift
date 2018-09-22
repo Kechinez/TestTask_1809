@@ -78,6 +78,15 @@ extension UIImage {
 
 
 
+extension UILabel {
+    func setTextAppearance(with textSize: CGFloat) {
+        let fontSize = CGFloat.calculateFontSize(from: CGFloat.calculateFontSize(from: textSize))
+        self.font = UIFont(name: "OpenSans", size: fontSize)!
+        self.textColor = .white
+    }
+}
+
+
 
 
 

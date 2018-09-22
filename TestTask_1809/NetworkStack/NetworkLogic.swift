@@ -18,6 +18,9 @@ public enum APIResult<T> {
 }
 
 
+
+//MARK: - Building API requests
+
 private enum ApiRequests {
     case GetAllHotels
     case GetImage(imageId: String)
@@ -27,7 +30,7 @@ private enum ApiRequests {
         switch self {
         case .GetAllHotels, .GetHotelInfo(hotelId: _):
             return URL(string: "https://raw.githubusercontent.com/iMofas/ios-android-test/master/")!
-
+            
         case .GetImage(imageId: _):
             return URL(string: "https://github.com/iMofas/ios-android-test/raw/master/")!
         }
@@ -53,9 +56,13 @@ private enum ApiRequests {
 
 
 
+
+//MARK: - Network stack functionality protocols
+
 protocol HotelMetadataDecoding {
     init?(json: JSON)
 }
+
 protocol HotelDecoding {
     init?(json: JSON)
 }
@@ -65,26 +72,33 @@ private protocol Parsing {
     static func fetchHotelMetadata(from json: JSON, completionHandler: @escaping ((APIResult<HotelMetadata>) -> ()))
 }
 
+private protocol GettingHotelImages {
+    static func getImageOfHotel(with id: String, completionHandler: @escaping ((APIResult<Data>) -> ()))
+}
+
+
+private protocol GettingHotelData {
+    static func getHotels(completionHandler: @escaping ((APIResult<[Hotel]>) -> ()))
+    static func getHotelMetadata(with id: String, completionHandler: @escaping ((APIResult<HotelMetadata>) -> ()))
+}
+
+
+
+
+//MARK: - Implementation of protocols
 
 extension NetworkManager: Parsing {
-   
+    
     static func fetchHotelMetadata(from json: JSON, completionHandler: @escaping ((APIResult<HotelMetadata>) -> ())) {
         
         guard !json.isEmpty else {
-            DispatchQueue.main.async {
-                let userInfo = [NSLocalizedDescriptionKey: NSLocalizedString("No results. Please, try again!", comment: "")]
-                let error = NSError(domain: "errorDomain", code: 100, userInfo: userInfo)
-                completionHandler(APIResult.Failure(error))
-            }
+            NetworkManager.returnDefaultErrorOnMainThread(with: completionHandler)
             return
         }
         
         guard let hotelMetadata = HotelMetadata(json: json) else {
-            DispatchQueue.main.async {
-                let userInfo = [NSLocalizedDescriptionKey: NSLocalizedString("No results. Please, try again!", comment: "")]
-                let error = NSError(domain: "errorDomain", code: 100, userInfo: userInfo)
-                completionHandler(APIResult.Failure(error))
-            }
+            NetworkManager.returnDefaultErrorOnMainThread(with: completionHandler)
+
             return
         }
         
@@ -92,7 +106,8 @@ extension NetworkManager: Parsing {
             completionHandler(APIResult.Success(hotelMetadata))
         }
     }
-
+    
+    
     
     static func fetchHotelArray(from json: [JSON], completionHandler: @escaping ((APIResult<[Hotel]>) -> ())) -> () {
         
@@ -111,11 +126,8 @@ extension NetworkManager: Parsing {
         }
         
         guard hotelList.count > 0 else {
-            DispatchQueue.main.async {
-                let userInfo = [NSLocalizedDescriptionKey: NSLocalizedString("No results. Please, try again!", comment: "")]
-                let error = NSError(domain: "errorDomain", code: 100, userInfo: userInfo)
-                completionHandler(APIResult.Failure(error))
-            }
+            NetworkManager.returnDefaultErrorOnMainThread(with: completionHandler)
+
             return
         }
         
@@ -123,22 +135,9 @@ extension NetworkManager: Parsing {
             completionHandler(APIResult.Success(hotelList))
         }
     }
-
-
-
-
+    
 }
 
-
-private protocol GettingHotelImages {
-    static func getImageOfHotel(with id: String, completionHandler: @escaping ((APIResult<Data>) -> ()))
-}
-
-
-private protocol GettingHotelData {
-    static func getHotels(completionHandler: @escaping ((APIResult<[Hotel]>) -> ()))
-    static func getHotelMetadata(with id: String, completionHandler: @escaping ((APIResult<HotelMetadata>) -> ()))
-}
 
 
 
@@ -153,8 +152,10 @@ extension NetworkManager: GettingHotelImages {
             }
         }
     }
-
+    
 }
+
+
 
 
 extension NetworkManager: GettingHotelData {
@@ -163,7 +164,6 @@ extension NetworkManager: GettingHotelData {
         let urlRequest = ApiRequests.GetAllHotels.request
         
         requestData(with: urlRequest) { (data) in
-            
             
             switch data {
             case .Success(let data):
@@ -178,6 +178,7 @@ extension NetworkManager: GettingHotelData {
             }
         }
     }
+    
     
     
     static func getHotelMetadata(with id: String, completionHandler: @escaping ((APIResult<HotelMetadata>) -> ())) {
@@ -198,9 +199,12 @@ extension NetworkManager: GettingHotelData {
         }
     }
     
-
 }
 
+
+
+
+// MARK: - NetworkManager class
 
 final class NetworkManager {
     
@@ -209,6 +213,7 @@ final class NetworkManager {
     var dataTask: URLSessionDataTask?
     
     
+    //MARK: - base functionality methods
     
     private static func serializeJSON(from data: Data) -> Any? {
         do {
@@ -217,6 +222,15 @@ final class NetworkManager {
         } catch {
             print("can't convert to JSON object!")
             return nil
+        }
+    }
+    
+    
+    private static func returnDefaultErrorOnMainThread<T>(with completionHandler: @escaping ((APIResult<T>) -> ())) {
+        DispatchQueue.main.async {
+            let userInfo = [NSLocalizedDescriptionKey: NSLocalizedString("No results. Please, try again!", comment: "")]
+            let error = NSError(domain: "errorDomain", code: 100, userInfo: userInfo)
+            completionHandler(APIResult.Failure(error))
         }
     }
     
@@ -248,9 +262,7 @@ final class NetworkManager {
         }
         dataTask.resume()
     }
-
-
-
+    
 }
 
 

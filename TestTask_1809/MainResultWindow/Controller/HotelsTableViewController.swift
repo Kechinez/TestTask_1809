@@ -26,9 +26,15 @@ class HotelsTableViewController: UIViewController {
     }
     
     
+    
+    
+    
+    //MARK: - ViewController lifecycle methods
+    
     override func loadView() {
         view = HotelsTableView()
     }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,16 +59,6 @@ class HotelsTableViewController: UIViewController {
     }
 
     
-    @objc private func moveToSearchFilterController() {
-        let nextVC = SearchFilterController()
-        nextVC.delegate = self
-        navigationController?.pushViewController(nextVC, animated: true)
-        
-        
-    }
-    
-   
-
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -70,18 +66,32 @@ class HotelsTableViewController: UIViewController {
         hotels.sortHotels(using: filter)
         hotelsTableView.reloadData()
     }
- 
+    
+    
+    
+    
+    
+    //MARK:- Additional methods
+    
+    @objc private func moveToSearchFilterController() {
+        let nextVC = SearchFilterController()
+        nextVC.delegate = self
+        navigationController?.pushViewController(nextVC, animated: true)
+        
+    }
+    
     
 }
 
 
 
 
-// MARK: - TableViewController methods
 
 
 
+// MARK: - TableViewController Delegate
 extension HotelsTableViewController: UITableViewDelegate {
+    
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let nextVC = CurrentHotelController()
@@ -90,17 +100,23 @@ extension HotelsTableViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
 
     }
+
 }
 
 
 
 
 
+
+
+//MARK:- TableView Data Source
 extension HotelsTableViewController: UITableViewDataSource {
+    
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return hotels.count
@@ -110,14 +126,7 @@ extension HotelsTableViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! HotelCell
         let currentHotel = hotels[indexPath.row]
-        
-        cell.nameLabel.text = currentHotel.name
-        cell.distanceLabel.text = currentHotel.distanceString
-        cell.showHotelStars(currentHotel.stars)
-        
-       // if cell.nameLabel.li
-        
-        //cell.roomLeftLabel.text = currentHotel.roomsAvailableString
+        cell.updateUI(with: currentHotel)
         return cell
     }
     
