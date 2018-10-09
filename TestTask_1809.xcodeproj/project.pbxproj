@@ -25,6 +25,7 @@
 		3D0BAFE9216BB8FF006EC77C /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D0BAFE0216BB8FE006EC77C /* OpenSans-Light.ttf */; };
 		3D0BAFEA216BB8FF006EC77C /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D0BAFE1216BB8FE006EC77C /* OpenSans-Regular.ttf */; };
 		3D0BAFEC216BB8FF006EC77C /* ErrorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0BAFE3216BB8FE006EC77C /* ErrorManager.swift */; };
+		3D0BAFEE216BC191006EC77C /* HotelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0BAFED216BC191006EC77C /* HotelViewModel.swift */; };
 		3DFD885C21514032009190AC /* NetworkLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFD885B21514032009190AC /* NetworkLogic.swift */; };
 /* End PBXBuildFile section */
 
@@ -48,6 +49,7 @@
 		3D0BAFE1216BB8FE006EC77C /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
 		3D0BAFE2216BB8FE006EC77C /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3D0BAFE3216BB8FE006EC77C /* ErrorManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorManager.swift; sourceTree = "<group>"; };
+		3D0BAFED216BC191006EC77C /* HotelViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotelViewModel.swift; sourceTree = "<group>"; };
 		3DFD883421513636009190AC /* TestTask_1809.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestTask_1809.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3DFD885B21514032009190AC /* NetworkLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkLogic.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -151,6 +153,7 @@
 		3D0BAFCA216BB8B9006EC77C /* Hotels */ = {
 			isa = PBXGroup;
 			children = (
+				3D0BAFED216BC191006EC77C /* HotelViewModel.swift */,
 			);
 			path = Hotels;
 			sourceTree = "<group>";
@@ -331,6 +334,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D0BAFEE216BC191006EC77C /* HotelViewModel.swift in Sources */,
 				3D0BAFBC216BB8A1006EC77C /* HotelsTableViewController.swift in Sources */,
 				3D0BAFBB216BB8A1006EC77C /* SearchFilterController.swift in Sources */,
 				3D0BAFD5216BB8C1006EC77C /* HotelCell.swift in Sources */,

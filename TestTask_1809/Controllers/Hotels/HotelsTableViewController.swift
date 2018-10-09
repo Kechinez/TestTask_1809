@@ -13,6 +13,11 @@ let imageCache = NSCache<NSString, AnyObject>()
 
 class HotelsTableViewController: UIViewController {
     
+    //var hotelViewModels: [HotelViewModel]()
+    lazy var viewModel: HotelViewModel = {
+       return HotelViewModel()
+    }()
+    
     var isFiltered = false
     let cellId = "HotelCell"
     var hotels: [Hotel] = []
@@ -39,6 +44,10 @@ class HotelsTableViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        viewModel.reloadTableViewClosure = { [weak self] () in
+            self?.hotelsTableView.reloadData()
+        }
+        
         hotelsTableView.delegate = self
         hotelsTableView.dataSource = self
     
@@ -46,10 +55,9 @@ class HotelsTableViewController: UIViewController {
         
         NetworkManager.getHotels { [weak self] (result) in
             switch result {
-            case .Success(let hotel):
-                self?.hotels = hotel
-            (self?.view as! HotelsTableView).tableView.reloadData()
-            self?.hotelsTableView.reloadData()
+            case .Success(let hotels):
+                self?.hotelViewModels = hotels.map({ return HotelViewModel(hotel: $0)})
+            
             case .Failure(let error):
                 guard let notNilSelf = self else { return }
                 ErrorManager.showErrorMessage(with: error, shownAt: notNilSelf)
@@ -125,8 +133,8 @@ extension HotelsTableViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! HotelCell
-        let currentHotel = hotels[indexPath.row]
-        cell.updateUI(with: currentHotel)
+        let hotelViewModel = hotelViewModels[indexPath.row]
+        cell.hotelViewModel = hotelViewModel
         return cell
     }
     

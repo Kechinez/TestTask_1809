@@ -10,6 +10,7 @@ import UIKit
 
 class HotelCell: UITableViewCell {
     
+    //MARK: - Creating UI
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -42,6 +43,12 @@ class HotelCell: UITableViewCell {
         return stackView
     }()
     
+    //MARK: - Binding
+    var hotelViewModel: HotelViewModel {
+        didSet {
+            updateUI()
+        }
+    }
     
     
     
@@ -70,7 +77,7 @@ class HotelCell: UITableViewCell {
     
     //MARK: - Additional methods
     
-    func updateUI(with currentHotel: Hotel) {
+    func updateUI() {
         self.nameLabel.text = currentHotel.name
         self.distanceLabel.text = currentHotel.distanceString
         showHotelStars(currentHotel.stars)
