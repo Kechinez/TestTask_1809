@@ -44,7 +44,7 @@ class HotelCell: UITableViewCell {
     }()
     
     //MARK: - Binding
-    var hotelViewModel: HotelViewModel {
+    var cellViewModel: HotelCellViewModel! {
         didSet {
             updateUI()
         }
@@ -78,22 +78,11 @@ class HotelCell: UITableViewCell {
     //MARK: - Additional methods
     
     func updateUI() {
-        self.nameLabel.text = currentHotel.name
-        self.distanceLabel.text = currentHotel.distanceString
-        showHotelStars(currentHotel.stars)
-        
+        self.nameLabel.text = cellViewModel.hotelName
+        self.distanceLabel.text = cellViewModel.distance
+        cellViewModel.showHotelStars(in: starsStackView)        
     }
 
-
-    private func showHotelStars(_ stars: Int) {
-        for (index, star) in starsStackView.arrangedSubviews.enumerated() {
-            if index < stars {
-                star.alpha = 1.0
-            } else {
-                star.alpha = 0.3
-            }
-        }
-    }
     
     
     private func createStarsArray() {
@@ -128,10 +117,4 @@ class HotelCell: UITableViewCell {
     
     
 }
-
-
-
-
-
-
 

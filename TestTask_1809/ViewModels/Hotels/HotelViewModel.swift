@@ -8,7 +8,7 @@
 
 import UIKit
 
-struct HotelViewModel {
+class HotelViewModel {
     
     var cellViewModels: [HotelCellViewModel] = [HotelCellViewModel]()
     var numberOfCells: Int {
@@ -22,25 +22,27 @@ struct HotelViewModel {
     }
     
     
-    mutating func fetchData() {
-        NetworkManager.getHotels { (result) in
+    private func fetchData() {
+        NetworkManager.getHotels { [unowned self] (result) in
             switch result {
             case .Success(let hotels):
                 self.cellViewModels = hotels.map({ return self.createCellViewModel(using: $0)})
-                
+                if let closure = self.reloadTableViewClosure {
+                    closure()
+                }
             case .Failure(let error):
                 print(error)
-                
             }
         }
     }
     
-    
     private func createCellViewModel(using hotel: Hotel) -> HotelCellViewModel {
-        
+        return HotelCellViewModel(hotelName: hotel.name, distance: hotel.distanceString, stars: hotel.stars, roomsAvailable: hotel.roomsAvailable)
     }
     
-    
+    func getCellModel(under index: Int) -> HotelCellViewModel {
+        return cellViewModels[index]
+    }
     
 }
 
@@ -50,5 +52,19 @@ struct HotelCellViewModel {
     let distance: String
     let stars: Int
     let roomsAvailable: Int
-    let address: String
+    
+    func showHotelStars(in stackView: UIStackView) {
+        for (index, star) in stackView.arrangedSubviews.enumerated() {
+            if index < stars {
+                star.alpha = 1.0
+            } else {
+                star.alpha = 0.3
+            }
+        }
+    }
 }
+
+
+
+
+
